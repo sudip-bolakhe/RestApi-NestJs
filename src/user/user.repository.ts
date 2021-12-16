@@ -20,12 +20,17 @@ export class UserRepository {
     return users;
   }
 
-  async getUserById(id) {
-    const users = await this.userModel.findOne({ _id: id });
+  async getUserById(id): Promise<User> {
+    const users = await this.userModel.findOne({ _id: id }).exec();
     return users;
   }
 
-  async deleteUser(id: string) {
-    return await this.userModel.findOneAndDelete({ _id: id });
+  async deleteUser(id: string): Promise<User> {
+    return await this.userModel.findOneAndDelete({ _id: id }).exec();
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email: email }).exec();
+    return user;
   }
 }

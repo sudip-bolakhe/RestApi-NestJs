@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from './dto/UserDto';
 import { UserService } from './user.service';
 
@@ -14,28 +16,29 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('/')
+  @Post()
   async addUser(@Body() body: UserDto) {
     return await this.userService.addUser(body);
   }
 
-  @Get('/')
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
   async getAllUser() {
     return await this.userService.getAllUser();
   }
 
-  @Get('/:id')
+  @Get(':id')
   async getUserById(@Param('id') id: string) {
     return await this.userService.getUserById(id);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   async deleteUser(@Param('id') id: string) {
     await this.userService.deleteUser(id);
     return { message: 'User deleted successfully!!' };
   }
 
-  @Put('/:id')
+  @Put(':id')
   async updateUser() {
     return;
   }
