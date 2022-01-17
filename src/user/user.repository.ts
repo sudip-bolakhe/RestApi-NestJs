@@ -9,28 +9,23 @@ export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async saveuser(user: UserDto): Promise<User> {
-    console.log('Saving in repository');
     let userToSave = new this.userModel(user);
-    console.log('Saved in respository');
-    return await userToSave.save();
+    return userToSave.save();
   }
 
   async getAllUser(): Promise<User[]> {
-    const users = await this.userModel.find({}).exec();
-    return users;
+    return await this.userModel.find({});
   }
 
-  async getUserById(id): Promise<User> {
-    const users = await this.userModel.findOne({ _id: id }).exec();
-    return users;
+  async getUserById(id: string): Promise<User> {
+    return await this.userModel.findOne({ _id: id });
   }
 
   async deleteUser(id: string): Promise<User> {
-    return await this.userModel.findOneAndDelete({ _id: id }).exec();
+    return await this.userModel.findOneAndDelete({ _id: id });
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email: email }).exec();
-    return user;
+    return await this.userModel.findOne({ email: email });
   }
 }
