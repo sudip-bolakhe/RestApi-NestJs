@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDto } from './dto/UserDto';
+import { UserDto } from './dto/user.dto';
 import { User } from './user.model';
 
 @Injectable()
@@ -19,6 +19,10 @@ export class UserRepository {
 
   async getUserById(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: id });
+  }
+
+  async updateUser(id: string, userDto: UserDto): Promise<User> {
+    return await this.userModel.findOneAndUpdate({ _id: id }, userDto);
   }
 
   async deleteUser(id: string): Promise<User> {

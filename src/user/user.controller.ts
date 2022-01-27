@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserDto } from './dto/UserDto';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -37,9 +37,8 @@ export class UserController {
     await this.userService.deleteUser(id);
     return { message: 'User deleted successfully!!' };
   }
-
   @Put(':id')
-  async updateUser() {
-    return;
+  async updateUser(@Body() body: UserDto, @Param('id') id: string) {
+    return await this.userService.updateUser(id, body);
   }
 }
